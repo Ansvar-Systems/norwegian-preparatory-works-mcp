@@ -1,0 +1,53 @@
+{
+  "manifest_version": "0.3",
+  "name": "norwegian-preparatory-works-mcp",
+  "display_name": "Norwegian Preparatory Works MCP Server",
+  "version": "0.1.0",
+  "description": "MCP server for Norwegian Stortinget preparatory works (forarbeider — Proposisjoner and Innstillinger) under NLOD 2.0",
+  "author": {
+    "name": "Ansvar Systems",
+    "email": "hello@ansvar.eu",
+    "url": "https://ansvar.eu"
+  },
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Ansvar-Systems/norwegian-preparatory-works-mcp"
+  },
+  "homepage": "https://ansvar.eu",
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "ai",
+    "claude",
+    "norwegian-law",
+    "norway",
+    "forarbeider",
+    "proposisjon",
+    "innstilling",
+    "stortinget",
+    "nlod-2.0",
+    "ansvar"
+  ],
+  "server": {
+    "type": "node",
+    "entry_point": "dist/index.js",
+    "mcp_config": {
+      "command": "node",
+      "args": ["${__dirname}/dist/index.js"],
+      "env": {}
+    }
+  },
+  "tools": [
+    { "name": "search_preparatory_works" },
+    { "name": "get_preparatory_work" },
+    { "name": "list_sources" },
+    { "name": "about" }
+  ],
+  "compatibility": {
+    "platforms": ["darwin", "win32", "linux"],
+    "runtimes": {
+      "node": ">=18.0.0"
+    }
+  }
+}

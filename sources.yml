@@ -1,0 +1,34 @@
+schema_version: "1.0"
+mcp_name: "Norwegian Preparatory Works MCP"
+jurisdiction: "NO"
+
+sources:
+  - name: "Stortinget API (data.stortinget.no)"
+    authority: "Stortinget (Norwegian Parliament)"
+    official_portal: "https://data.stortinget.no/"
+    canonical_identifier: "Stortinget sak id (e.g., '99461') or publikasjon id (e.g., 'inns-202324-001s')"
+    retrieval_method: "API_INCREMENTAL"
+    api_documentation: "https://data.stortinget.no/dokumentasjon-og-hjelp/teknisk-dokumentasjon/"
+    rate_limit: "100 calls/min (HTTP 429 enforced above threshold)"
+    update_frequency: "monthly"
+    last_ingested: "TBD"
+    license_or_terms:
+      type: "NLOD 2.0 (Norwegian Licence for Open Government Data)"
+      url: "https://data.norge.no/nlod/en/2.0/"
+      terms_url: "https://data.stortinget.no/om-datatjenesten/bruksvilkar/"
+      summary: "Free reuse including commercial and AI training/development under NLOD 2.0. Attribution required: 'Stortinget skal oppgis som kilde' (Stortinget must be cited as source)."
+    attribution:
+      source_url: "https://data.stortinget.no/"
+      publisher: "stortinget.no"
+      license: "NLOD-2.0"
+      attribution_text: "Stortinget — Norsk lisens for offentlige data (NLOD 2.0)"
+    coverage:
+      scope: "Proposisjoner (government bills) and Innstillinger (committee recommendations) from Stortinget sessions. Saker (parliamentary cases) with linked publication references."
+      sessions: "2017-2018 through current"
+      doc_types:
+        - "proposisjon — Government bills (Prop. L, Prop. LS, Prop. S)"
+        - "innstilling — Committee recommendations (Innst. L, Innst. S)"
+      limitations: "Full text (body) of proposisjoner is hosted on regjeringen.no; this MCP stores metadata plus linked titles. Full text of innstillinger is available as XML via data.stortinget.no. v0.1 sample covers sessions 2022-2023 and 2023-2024."
+    languages:
+      - "nb"
+      - "nn"

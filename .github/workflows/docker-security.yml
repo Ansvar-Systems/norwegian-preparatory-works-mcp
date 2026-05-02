@@ -31,7 +31,7 @@ jobs:
         run: mkdir -p data && touch data/database.db
 
       - name: Build Docker image for scanning
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: Dockerfile
@@ -104,7 +104,7 @@ jobs:
         run: mkdir -p data && touch data/database.db
 
       - name: Build image for SBOM
-        uses: docker/build-push-action@v5
+        uses: docker/build-push-action@v7
         with:
           context: .
           file: Dockerfile

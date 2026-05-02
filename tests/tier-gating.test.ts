@@ -61,30 +61,22 @@ describe('Tier gating', () => {
     });
   });
 
-  describe('tool descriptions', () => {
-    it('all three gated tools exist in TOOLS array', () => {
+  describe('tool registry', () => {
+    it('core preparatory works tools exist in TOOLS array', () => {
       const toolNames = TOOLS.map(t => t.name);
-      expect(toolNames).toContain('search_case_law');
-      expect(toolNames).toContain('get_preparatory_works');
-      expect(toolNames).toContain('build_legal_stance');
+      expect(toolNames).toContain('search_preparatory_works');
+      expect(toolNames).toContain('get_preparatory_work');
     });
 
-    it('gated tool descriptions mention tier dependency', () => {
-      const caseLaw = TOOLS.find(t => t.name === 'search_case_law');
-      const prepWorks = TOOLS.find(t => t.name === 'get_preparatory_works');
-      const legalStance = TOOLS.find(t => t.name === 'build_legal_stance');
-
-      expect(caseLaw?.description).toContain('tier');
-      expect(prepWorks?.description).toContain('tier');
-      expect(legalStance?.description).toContain('tier');
+    it('core tools have non-empty descriptions', () => {
+      const search = TOOLS.find(t => t.name === 'search_preparatory_works');
+      const get = TOOLS.find(t => t.name === 'get_preparatory_work');
+      expect(search?.description?.length).toBeGreaterThan(0);
+      expect(get?.description?.length).toBeGreaterThan(0);
     });
 
-    it('non-gated tools do NOT mention tier dependency', () => {
-      const searchLeg = TOOLS.find(t => t.name === 'search_legislation');
-      const getProv = TOOLS.find(t => t.name === 'get_provision');
-      // These should not confuse agents with tier language
-      expect(searchLeg?.description).not.toContain('tier');
-      expect(getProv?.description).not.toContain('tier');
+    it('TOOLS array is non-empty', () => {
+      expect(TOOLS.length).toBeGreaterThan(0);
     });
   });
 

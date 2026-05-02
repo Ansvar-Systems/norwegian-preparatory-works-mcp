@@ -1,8 +1,8 @@
 /**
- * Contract tests for Norwegian Law MCP.
+ * Contract tests for Norwegian Preparatory Works MCP.
  *
  * TODO: Most tests are skipped until the database is populated via ingestion.
- *       Re-enable by removing .skip after running scripts/ingest-lovdata.ts.
+ *       Re-enable by removing .skip after running scripts/ingest-stortinget.ts.
  */
 
 import { describe, it, expect, beforeAll, afterAll } from 'vitest';

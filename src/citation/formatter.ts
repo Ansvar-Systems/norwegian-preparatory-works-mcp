@@ -111,7 +111,10 @@ function buildPinpointClause(
     return '';
   }
 
-  if (format === 'full') {
+  // Both 'full' and 'pinpoint' include ledd/bokstav/nr; only 'short' strips them.
+  // 'short' callers pre-filter parts (see formatLovdataDocument), so this branch
+  // is also defensive against an unfiltered 'short' call.
+  if (format !== 'short') {
     if (ledd !== undefined) {
       const ordinal = LEDD_ORDINAL_STRINGS[ledd] ?? `${ledd}.`;
       tokens.push(`${ordinal} ledd`);

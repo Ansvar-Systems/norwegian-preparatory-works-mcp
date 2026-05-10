@@ -1,5 +1,11 @@
 /**
- * Test database fixture with Swedish law sample data.
+ * Test database fixture with Norwegian and Swedish law sample data.
+ *
+ * Norwegian rows (LOV-/FOR-prefixed) drive validator tests against
+ * the Norwegian citation grammar. Swedish rows (SFS-style ids like
+ * 2018:218) remain from the upstream fork and exercise the EU
+ * reference / case law / prep-works wiring; replacing them is tracked
+ * separately in the Phase G golden-standard rollout plan.
  */
 
 import Database from '@ansvar/mcp-sqlite';
@@ -239,6 +245,8 @@ CREATE INDEX IF NOT EXISTS idx_eu_references_provision ON eu_references(provisio
 `;
 
 const SAMPLE_DOCUMENTS = [
+  // Norwegian sample: personopplysningsloven (LOV-2018-06-15-38) — Norway's GDPR implementation.
+  { id: 'LOV-2018-06-15-38', type: 'statute', title: 'Lov om behandling av personopplysninger', title_en: 'Personal Data Act', short_name: 'personopplysningsloven', status: 'in_force', issued_date: '2018-06-15', in_force_date: '2018-07-20', url: 'https://lovdata.no/lov/2018-06-15-38', description: 'Norsk gjennomføring av personvernforordningen (GDPR)' },
   { id: '2018:218', type: 'statute', title: 'Lag med kompletterande bestämmelser till EU:s dataskyddsförordning', title_en: 'Act with supplementary provisions to the EU GDPR', short_name: 'DSL', status: 'in_force', issued_date: '2018-04-19', in_force_date: '2018-05-25', url: 'https://www.riksdagen.se/sv/dokument-och-lagar/dokument/svensk-forfattningssamling/lag-2018218-med-kompletterande-bestammelser_sfs-2018-218/', description: 'Kompletterande bestämmelser till GDPR' },
   { id: '1998:204', type: 'statute', title: 'Personuppgiftslag', title_en: 'Personal Data Act', short_name: 'PUL', status: 'repealed', issued_date: '1998-04-29', in_force_date: '1998-10-24', url: null, description: 'Upphävd 2018-05-25 genom SFS 2018:218' },
   { id: '2017/18:105', type: 'bill', title: 'Ny dataskyddslag', title_en: 'New Data Protection Act', short_name: null, status: 'in_force', issued_date: '2018-02-15', in_force_date: null, url: null, description: 'Proposition om kompletterande bestämmelser till GDPR' },
@@ -259,6 +267,13 @@ const SAMPLE_PROVISIONS = [
   { document_id: '1998:204', provision_ref: '1', chapter: null, section: '1', title: 'Lagens syfte', content: 'Syftet med denna lag är att skydda människor mot att deras personliga integritet kränks genom behandling av personuppgifter.' },
   { document_id: '1998:204', provision_ref: '3', chapter: null, section: '3', title: 'Definitioner', content: 'I denna lag används följande beteckningar med den betydelse som här anges: personuppgifter - all slags information som direkt eller indirekt kan hänföras till en fysisk person som är i livet.' },
   { document_id: '1998:204', provision_ref: '5 a', chapter: null, section: '5 a', title: 'Missbruksregeln', content: 'Behandling av personuppgifter som inte ingår i eller är avsedda att ingå i en samling av personuppgifter som har strukturerats för att påtagligt underlätta sökning efter eller sammanställning av personuppgifter är tillåten om behandlingen inte innebär en kränkning av den registrerades personliga integritet.' },
+  // Norwegian sample row appended at the end so it gets a high auto-increment id;
+  // SAMPLE_EU_REFERENCES below references Swedish provisions by hardcoded provision_id
+  // (4, 5, 7) which depend on insertion order being preserved.
+  // The validator builds provision_ref as `${chapter}:${section}` when chapter is set,
+  // else just `${section}` — this Norwegian row uses chapter=null (flat statute) so
+  // 'LOV-2018-06-15-38 § 13' resolves to provision_ref='13'.
+  { document_id: 'LOV-2018-06-15-38', provision_ref: '13', chapter: null, section: '13', title: 'Den registrertes rett til informasjon', content: 'Den registrerte har rett til å få informasjon om behandlingen av personopplysninger som gjelder ham eller henne.' },
 ];
 
 const SAMPLE_PROVISION_VERSIONS = [

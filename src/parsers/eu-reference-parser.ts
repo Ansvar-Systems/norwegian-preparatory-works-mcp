@@ -77,8 +77,10 @@ const NAMED_EU_ACTS = [
   },
 ];
 
-const ARTICLE_SEGMENT_PATTERN = /\bartik(?:el|larna)\s+([^;\n]+)/giu;
-const ARTICLE_LIST_SEPARATOR_PATTERN = /\s*(?:,|och|and)\s*/iu;
+// Match Swedish (artikel/artiklarna) and Norwegian Bokmål (artikkel/artiklene) forms.
+const ARTICLE_SEGMENT_PATTERN = /\bartik(?:k?el|l(?:arna|ene))\s+([^;\n]+)/giu;
+// Recognize comma + Swedish "och" + Norwegian "og" + English "and" as list separators.
+const ARTICLE_LIST_SEPARATOR_PATTERN = /\s*(?:,|och|og|and)\s*/iu;
 
 /**
  * Implementation keywords that indicate reference type
@@ -337,15 +339,17 @@ export function extractInlineEUArticleReferences(text: string): string[] {
       continue;
     }
 
-    // Trim tail context such as "i EU:s dataskyddsförordning"
+    // Trim tail context such as "i EU:s dataskyddsförordning" (Swedish) or
+    // "i EUs personvernforordning" (Norwegian, possessive `EUs` without colon).
     segment = segment
-      .split(/\s+i\s+(?:EU|EG|EEG|Euratom|dataskyddsförordning|förordningen|direktivet)\b/i)[0]
+      .split(/\s+i\s+(?:EU(?::?s)?|EG|EEG|Euratom|dataskyddsförordning(?:en)?|personvernforordning(?:en)?|förordningen|forordning(?:en)?|direktivet)\b/iu)[0]
       .trim();
     if (!segment) {
       continue;
     }
 
     segment = segment.replace(/\s+och\s+/giu, ',');
+    segment = segment.replace(/\s+og\s+/giu, ',');
     segment = segment.replace(/\s+and\s+/giu, ',');
 
     const parts = segment.split(ARTICLE_LIST_SEPARATOR_PATTERN);

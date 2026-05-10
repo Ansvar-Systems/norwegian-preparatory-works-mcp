@@ -74,6 +74,11 @@ const FOR_PATTERN = /^(FOR-\d{4}-\d{2}-\d{2}-[A-Za-z0-9]+)/i;
  * Pinpoint clause appended after document ID or short name.
  * Captures optional kapittel, § section, ledd ordinal, bokstav, and nr.
  *
+ * The leading kapittel/§ group uses `\s*` (zero-or-more) because callers
+ * pass a substring after the doc-id has already been consumed and trimmed,
+ * so the first token may sit at offset 0. Subsequent groups (ledd, bokstav,
+ * nr.) keep `\s+` because they always follow a preceding token.
+ *
  * Examples matched:
  *   § 13
  *   § 13 første ledd
@@ -84,7 +89,7 @@ const FOR_PATTERN = /^(FOR-\d{4}-\d{2}-\d{2}-[A-Za-z0-9]+)/i;
  *   kap. 3
  */
 const PINPOINT_PATTERN =
-  /(?:\s+(?:kapittel|kap\.)\s*(\d+))?(?:\s+§\s*(\d+))?(?:\s+(første|andre|tredje|fjerde|femte|sjette|sjuende|åttende|niende|tiende)\s+ledd)?(?:\s+bokstav\s+([a-å]))?(?:\s+nr\.\s*(\d+))?/i;
+  /(?:\s*(?:kapittel|kap\.)\s*(\d+))?(?:\s*§\s*(\d+))?(?:\s+(første|andre|tredje|fjerde|femte|sjette|sjuende|åttende|niende|tiende)\s+ledd)?(?:\s+bokstav\s+([a-å]))?(?:\s+nr\.\s*(\d+))?/i;
 
 /** Norwegian ordinals for ledd */
 const LEDD_ORDINALS: Record<string, number> = {

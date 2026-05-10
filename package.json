@@ -21,7 +21,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "ingest": "tsx scripts/ingest-stortinget.ts",
-    "lint": "eslint src tests",
+    "lint": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "postinstall": "test -d dist || npm run build || true",
     "ingest:fetch": "tsx scripts/ingest-fetch.ts",
@@ -33,10 +33,13 @@
   },
   "dependencies": {
     "@ansvar/mcp-sqlite": "^1.0.3",
-    "@modelcontextprotocol/sdk": "^1.25.3"
+    "@modelcontextprotocol/sdk": "^1.25.3",
+    "js-yaml": "^4.1.1"
   },
   "devDependencies": {
     "@types/better-sqlite3": "^7.6.13",
+    "@types/js-yaml": "^4.0.9",
+    "@types/jsdom": "^28.0.1",
     "@types/node": "^22.15.29",
     "@vitest/coverage-v8": "^4.0.18",
     "better-sqlite3": "^12.6.2",

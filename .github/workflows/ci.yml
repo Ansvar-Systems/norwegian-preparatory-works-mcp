@@ -88,15 +88,19 @@ jobs:
       - name: Coverage consistency
         run: |
           if jq -e '.scripts["coverage:verify"]' package.json >/dev/null 2>&1; then
-            # coverage:verify typically needs a built DB; gate on DB existence
-            # rather than just script presence (auto-ingested MCPs may have the
-            # script but no DB in CI because build:db skipped or wasn't defined).
+            # coverage:verify reads data/coverage.json (produced by `coverage:update`,
+            # not `build:db`) and cross-checks counts against the DB. Gate on BOTH
+            # files: a built DB alone is not enough — without coverage.json the
+            # script exits 1. Repos that haven't generated coverage.json yet get a
+            # skip instead of a hard failure.
             DB_PATH=$(jq -r '.scripts["build:db"] // empty' package.json | grep -oE 'data/[a-zA-Z0-9_-]+\.db' | head -1)
             DB_PATH=${DB_PATH:-data/database.db}
-            if [ -f "$DB_PATH" ]; then
+            if [ -f "$DB_PATH" ] && [ -f data/coverage.json ]; then
               npm run coverage:verify
-            else
+            elif [ ! -f "$DB_PATH" ]; then
               echo "coverage:verify present but no DB at $DB_PATH — skipping (build:db did not produce one)"
+            else
+              echo "coverage:verify present and DB exists, but data/coverage.json not generated — skipping (run coverage:update to generate)"
             fi
           else
             echo "coverage:verify script not present — skipping"

@@ -42,7 +42,7 @@
     "@types/jsdom": "^28.0.1",
     "@types/node": "^22.15.29",
     "@vitest/coverage-v8": "^4.0.18",
-    "better-sqlite3": "^12.6.2",
+    "better-sqlite3": "^12.9.0",
     "fast-xml-parser": "^5.3.5",
     "tsx": "^4.21.0",
     "typescript": "^5.9.3",

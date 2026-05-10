@@ -21,7 +21,7 @@
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage",
     "ingest": "tsx scripts/ingest-stortinget.ts",
-    "lint": "eslint src tests",
+    "lint": "tsc --noEmit",
     "prepublishOnly": "npm run build",
     "postinstall": "test -d dist || npm run build || true",
     "ingest:fetch": "tsx scripts/ingest-fetch.ts",

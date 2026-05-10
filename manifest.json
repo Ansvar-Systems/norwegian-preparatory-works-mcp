@@ -42,7 +42,8 @@
     { "name": "search_preparatory_works" },
     { "name": "get_preparatory_work" },
     { "name": "list_sources" },
-    { "name": "about" }
+    { "name": "about" },
+    { "name": "check_data_freshness" }
   ],
   "compatibility": {
     "platforms": ["darwin", "win32", "linux"],

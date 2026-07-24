@@ -37,7 +37,7 @@ jobs:
       actions: read  # codeql-action/upload-sarif requires this on internal/private repos
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Set image name from package.json
         id: meta
